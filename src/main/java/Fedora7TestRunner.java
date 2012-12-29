@@ -51,7 +51,9 @@ public class Fedora7TestRunner {
             System.out.println("purging old fedora test object \"test:fedora-7\"");
             FedoraResponse respPurge = new PurgeObject("test:fedora-7")
             .execute();
+            respPurge.close();
         }
+        getResp.close();
     }
 
     private void ingestTest() throws Exception {
@@ -59,6 +61,7 @@ public class Fedora7TestRunner {
         IngestResponse respIngest =
                 new Ingest("test:fedora-7").label("Test for FEDORA-7")
                 .execute();
+        respIngest.close();
         String[] names = dir.list();
         for(int i =0;i<names.length;i++){
             String name = names[i];
@@ -70,6 +73,7 @@ public class Fedora7TestRunner {
                         .controlGroup("M")
                         .content(new File(dir,name))
                         .execute();
+            respAdd.close();
             if (i % 50 == 1){
                 System.out.println(i + "/" + names.length);
             }
